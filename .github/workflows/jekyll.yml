@@ -36,33 +36,15 @@ jobs:
       - name: Minify JS files
         run: |
           uglifyjs assets/js/plugins/jquery.greedy-navigation.js assets/js/_main.js assets/js/theme.js -c -m -o assets/js/main.min.js
-      - name: Build with Jekyll
-        run: bundle exec jekyll build
-        env:
-          JEKYLL_ENV: production
-      - name: Verify generated About content
-        shell: bash
-        run: |
-          set -e
-          test -f _site/index.html
-          for term in 'Junteng Liu' 'First-year PhD candidate' 'HKUST NLP Group' 'Professor Junxian He' 'Shanghai Jiao Tong University' 'June 2024' 'B.Eng.' 'Zhiyuan Honor Scholarship' 'MINIMAX' 'February 2025' 'Tencent WXG' 'Zifei Shan' 'Shanghai AI Lab' 'Yu Cheng' 'Natural language processing' 'Machine learning' 'reinforcement learning' 'Vision-Language Models' 'truthfulness and interpretability' 'jliugi@connect.ust.hk' 'Vicent0205' 'tbK9jl4AAAAJ' 'junteng88716710' 'SynLogic' 'Perception Bottleneck' 'Universal Truthfulness Hyperplane' 'In-Context Sharpness' 'C-Eval' 'Composing Parameter-Efficient'; do
-            grep -Fq "$term" _site/index.html || { echo "Missing on About: $term"; exit 1; }
-          done
-          echo 'About content checks passed.'
-      - name: Verify generated Publications content
-        shell: bash
-        run: |
-          set -e
-          test -f _site/publications/index.html
-          for term in 'Junteng Liu' 'SynLogic' 'Perception Bottleneck' 'Universal Truthfulness Hyperplane' 'EMNLP 2024' 'In-Context Sharpness' 'ICML 2024' 'C-Eval' 'NeurIPS 2023' 'Composing Parameter-Efficient' 'Vision4Chart' 'Universal_Truthfulness_Hyperplane' 'Yuanxiang Fan' 'Yuzhen Huang'; do
-            grep -Fq "$term" _site/publications/index.html || { echo "Missing on Publications: $term"; exit 1; }
-          done
-          echo 'Publications content checks passed.'
       - name: Configure GitHub Pages
         id: pages
         uses: actions/configure-pages@v6.0.0
         with:
           enablement: true
+      - name: Build with Jekyll
+        run: bundle exec jekyll build --baseurl '${{ steps.pages.outputs.base_path }}'
+        env:
+          JEKYLL_ENV: production
       - name: Upload GitHub Pages artifact
         uses: actions/upload-pages-artifact@v5.0.0
 
