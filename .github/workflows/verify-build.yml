@@ -1,0 +1,50 @@
+name: Verify Jekyll build
+on:
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  verify:
+    runs-on: ubuntu-24.04
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v7.0.1
+      - name: Setup Node.js
+        uses: actions/setup-node@v7
+        with:
+          node-version: '24'
+      - name: Setup Ruby
+        uses: ruby/setup-ruby@v1.328.0
+        with:
+          ruby-version: '3.1'
+          bundler-cache: true
+          cache-version: 0
+      - name: Install UglifyJS
+        run: npm install -g uglify-js
+      - name: Minify JS files
+        run: uglifyjs assets/js/plugins/jquery.greedy-navigation.js assets/js/_main.js assets/js/theme.js -c -m -o assets/js/main.min.js
+      - name: Build with Jekyll
+        run: bundle exec jekyll build --baseurl /LJT-Homepage
+      - name: Verify About page content
+        shell: bash
+        run: |
+          set -e
+          test -f _site/index.html
+          for term in 'Junteng Liu' 'First-year PhD candidate' 'HKUST NLP Group' 'Professor Junxian He' 'Shanghai Jiao Tong University' 'June 2024' 'B.Eng.' 'Zhiyuan Honor Scholarship' 'MINIMAX' 'February 2025' 'Tencent WXG' 'Zifei Shan' 'Shanghai AI Lab' 'Yu Cheng' 'Natural language processing' 'Machine learning' 'reinforcement learning' 'Vision-Language Models' 'truthfulness and interpretability' 'jliugi@connect.ust.hk' 'Vicent0205' 'tbK9jl4AAAAJ' 'junteng88716710' 'SynLogic' 'Perception Bottleneck' 'Universal Truthfulness Hyperplane' 'In-Context Sharpness' 'C-Eval' 'Composing Parameter-Efficient'; do
+            grep -Fq "$term" _site/index.html || { echo "Missing on About: $term"; exit 1; }
+          done
+          echo 'About page content checks passed.'
+      - name: Verify Publications page content
+        shell: bash
+        run: |
+          set -e
+          test -f _site/publications/index.html
+          for term in 'SynLogic' 'Perception Bottleneck' 'Universal Truthfulness Hyperplane' 'EMNLP 2024' 'In-Context Sharpness' 'ICML 2024' 'C-Eval' 'NeurIPS 2023' 'Composing Parameter-Efficient' 'Vision4Chart' 'Universal_Truthfulness_Hyperplane' 'Yuanxiang Fan' 'Yuzhen Huang'; do
+            grep -Fq "$term" _site/publications/index.html || { echo "Missing on Publications: $term"; exit 1; }
+          done
+          echo 'Publications page content checks passed.'
+      - name: List generated publication files
+        shell: bash
+        run: find _site/publications -maxdepth 2 -type f | sort
