@@ -6,13 +6,13 @@ category: conferences
 permalink: /publications/in-context-sharpness-alerts/
 year: 2024
 order: 4
-venue: 'ICML 2024'
+venue: 'International Conference on Machine Learning (ICML)'
 excerpt: 'Co-authored paper.'
 citation: 'Shiqi Chen, Miao Xiong, Junteng Liu, Zhengxuan Wu, Teng Xiao, Siyang Gao, and Junxian He (2024). &quot;In-Context Sharpness as Alerts: An Inner Representation Perspective for Hallucination Mitigation&quot;. <i>ICML 2024</i>.'
 ---
 
 **Authors:** Shiqi Chen, Miao Xiong, Junteng Liu, Zhengxuan Wu, Teng Xiao, Siyang Gao, and Junxian He.
 
-**Venue:** ICML 2024
+**Venue:** ICML 2024 (International Conference on Machine Learning)
 
 **Role:** Co-author
