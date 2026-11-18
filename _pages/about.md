@@ -7,6 +7,8 @@ redirect_from:
   - /about.html
 ---
 
+## Personal Details
+
 I am a first-year PhD candidate at the HKUST NLP Group, Hong Kong University of Science and Technology. I am pursuing a Ph.D. in Computer Science (2024-Present) under the supervision of Professor Junxian He. I graduated from Shanghai Jiao Tong University in June 2024 with a B.Eng. (2020-2024). My research focuses on natural language processing and machine learning.
 
 ## Academic Background
